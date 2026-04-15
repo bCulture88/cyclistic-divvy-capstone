@@ -1,0 +1,145 @@
+---
+title: "Cyclistic Bike-Share Case Study"
+subtitle: "How Do Annual Members and Casual Riders Use Cyclistic Bikes Differently?"
+author: "Luca Mariani"
+date: "April 2026"
+output: 
+  html_document:
+    theme: cosmo
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, fig.align = "center")
+options(scipen = 999)
+
+library(tidyverse)
+library(lubridate)
+library(janitor)
+library(vroom)
+library(ggplot2)
+
+all_trips       <- readRDS("/Users/lucamariani/Desktop/Capstone_Cyclist_Divvy_Project/cyclistic-divvy-analysis/data_processed/all_trips_cleaned.rds")
+ride_summary    <- readRDS("/Users/lucamariani/Desktop/Capstone_Cyclist_Divvy_Project/cyclistic-divvy-analysis/data_processed/ride_summary.rds")
+day_summary     <- readRDS("/Users/lucamariani/Desktop/Capstone_Cyclist_Divvy_Project/cyclistic-divvy-analysis/data_processed/day_summary.rds")
+weekend_summary <- readRDS("/Users/lucamariani/Desktop/Capstone_Cyclist_Divvy_Project/cyclistic-divvy-analysis/data_processed/weekend_summary.rds")
+day_ranking     <- readRDS("/Users/lucamariani/Desktop/Capstone_Cyclist_Divvy_Project/cyclistic-divvy-analysis/data_processed/day_ranking.rds")
+
+p1 <- readRDS("/Users/lucamariani/Desktop/Capstone_Cyclist_Divvy_Project/cyclistic-divvy-analysis/data_processed/plot_p1.rds")
+p2 <- readRDS("/Users/lucamariani/Desktop/Capstone_Cyclist_Divvy_Project/cyclistic-divvy-analysis/data_processed/plot_p2.rds")
+p3 <- readRDS("/Users/lucamariani/Desktop/Capstone_Cyclist_Divvy_Project/cyclistic-divvy-analysis/data_processed/plot_p3.rds")
+p4 <- readRDS("/Users/lucamariani/Desktop/Capstone_Cyclist_Divvy_Project/cyclistic-divvy-analysis/data_processed/plot_p4.rds")
+```
+
+## Executive Summary
+
+This analysis examines how **casual riders** and **annual members** use Cyclistic bikes differently, using 12 months of trip data (March 2025 – February 2026). The goal is to provide actionable insights to help convert casual riders into annual members.
+
+**Key Findings:**
+- Casual riders take significantly longer rides on average (19.9 minutes) compared to members (12.2 minutes).
+- Members complete far more rides overall and use the service more consistently.
+- Saturday is the busiest day overall.
+
+## ROCCC Data Evaluation
+
+- **Reliable**: Primary source data from Divvy (Motivate/Lyft).
+- **Original**: Raw trip-level data.
+- **Comprehensive**: Covers all recorded trips over 12 full months.
+- **Current**: Most recent 12 months available.
+- **Cited**: Used under the Divvy Data License Agreement.
+
+**Limitation**: Some station information is missing for dockless/electric bike trips (common in recent data). No personally identifiable information is present.
+
+## Business Task
+
+The director of marketing wants to understand how casual riders and annual members use Cyclistic bikes differently in order to design marketing strategies aimed at converting casual riders into annual members.
+
+## Data Preparation & Cleaning
+
+- Combined 12 monthly CSV files (initially 5,601,662 rows).
+- Added derived columns: `ride_length_min`, `day_of_week_num`, and `day_of_week`.
+- Removed invalid rides (≤ 1 minute or ≥ 24 hours) → 155,456 rows removed (2.8%).
+- Final cleaned dataset: **5,446,206 rides**.
+
+## Key Analysis Findings
+
+### Average Ride Length by User Type
+
+```{r echo=FALSE}
+knitr::kable(ride_summary, caption = "Average, median and max ride length by user type", format = "html", digits = 1)
+```
+
+Casual riders take almost **60% longer** rides on average than members (19.9 min vs 12.2 min).
+
+### Most Popular Days (Ranking)
+
+```{r echo=FALSE}
+knitr::kable(day_ranking, caption = "Ranking of days by total number of rides", format = "html", digits = 0)
+```
+
+Saturday is the most frequent day with 839,180 rides.
+
+### Rides by Day of Week
+
+```{r echo=FALSE}
+knitr::kable(day_summary, caption = "Number of rides by day of week and user type", format = "html", digits = 0)
+```
+
+Members ride more consistently throughout the week, while casual riders peak on weekends.
+
+### Weekend vs Weekday Behavior
+
+```{r echo=FALSE}
+knitr::kable(weekend_summary, caption = "Average ride length: Weekend vs Weekday", format = "html", digits = 1)
+```
+
+Casual riders ride much longer on weekends.
+
+## Visualizations
+
+### 1. Average Ride Length by User Type
+
+```{r echo=FALSE}
+print(p1)
+```
+
+### 2. Number of Rides by Day of Week
+
+```{r echo=FALSE}
+print(p2)
+```
+
+### 3. Weekend vs Weekday Average Ride Length
+
+```{r echo=FALSE}
+print(p3)
+```
+
+### 4. Total Number of Rides by User Type
+
+```{r echo=FALSE}
+print(p4)
+```
+
+## Top 3 Recommendations
+
+1. **Target Weekend Leisure Riders**  
+   Casual riders take significantly longer rides on weekends. Offer weekend-specific membership incentives such as extended ride time or discounted weekend passes to convert leisure users.
+
+2. **Position Membership as a Reliable Commuting Tool**  
+   Members ride more consistently during the week. Market the annual membership as a time-saving commuting solution with benefits like priority bike availability during peak hours.
+
+3. **Launch a Low-Friction Conversion Campaign**  
+   With nearly 2 million casual rides, many users are already familiar with the service. Introduce a “30-day trial” or “Ride 10 times, get the 11th free” program to encourage casual riders to become members.
+
+## Conclusion
+
+The data clearly shows that casual riders and annual members use Cyclistic bikes differently. Casual riders favor longer, leisure-oriented rides (especially on weekends), while members use the service more frequently for daily commuting. By targeting weekend behavior and offering easy conversion paths, Cyclistic has a strong opportunity to turn casual users into profitable annual members.
+
+## Appendix
+
+- Cleaned dataset: `data_processed/all_trips_cleaned.rds`
+- Summary tables and plots saved in `data_processed/`
+- All code is reproducible using the accompanying R script.
