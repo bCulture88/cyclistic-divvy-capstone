@@ -10,7 +10,7 @@ This repository contains the complete analysis for the **Cyclistic Bike-Share Ca
 
 The project investigates how **casual riders** and **annual members** use Cyclistic bikes differently, with the goal of providing marketing insights to help convert casual riders into annual members.
 
-**[👉 View the full interactive report here](https://htmlpreview.github.io/?https://raw.githubusercontent.com/bCulture88/cyclistic-divvy-capstone/refs/heads/main/cyclistic_analysis.html)**
+**[👉 View the full report here](https://bCulture88.github.io/cyclistic-divvy-capstone/cyclistic_analysis.html)**
 
 ## Key Findings
 - Casual riders take significantly longer rides on average (**19.9 minutes**) vs members (**12.2 minutes**).
@@ -25,7 +25,7 @@ The project investigates how **casual riders** and **annual members** use Cyclis
 - `README.md` — Project documentation
 
 ## How to View the Report
-Click the link above or open `cyclistic_analysis.html` directly.
+Click the link above to open the full formatted report with table of contents.
 
 You can also open the `.Rmd` file in RStudio and click **Knit**.
 
@@ -39,3 +39,4 @@ Divvy trip data provided by Motivate International Inc. / Lyft under the Divvy D
 
 ---
 **Portfolio Project** — Completed as the capstone for the Google Data Analytics Certificate.
+
